@@ -4,16 +4,16 @@ function Game(start) {
 }
 
 class Animal {
-  constructor(eat, counter, dead) {
+  constructor(eat, counter, alive) {
     this.eat = eat;
     this.produceOffspringCounter = counter;
-    // when kill is true, the animal is dead
-    this.dead = dead;
+    // when kill is true, the animal is alive
+    this.alive = alive;
   }
   // call this function to kill the animal
   slaughterAnimal() {
-    console.log('log 1- animal-farm--\nAnimal is dead!');
-    this.dead = true;
+    console.log('log 1- animal-farm--\nAnimal is alive!');
+    this.alive = false;
   }
   // call this function to feed the animal
   feedAnimal() {
@@ -29,16 +29,16 @@ class Animal {
       // if above condition is met, create another instance of same animal
       console.log('log 4- animal-farm--\ncreated a new animal');
       //create a new chicken in the game.animals array
-      game.animals.push(new Chicken(10, 0, false));
-      // remove all event listeners from animalPen class so we don't get duplicates
-      $('.animalPen').unbind();
+      game.animals.push(new Chicken(10, 0, true));
+      // remove all event listeners from chicken class so we don't get duplicates
+      $('.chicken').unbind();
       //add a new chicken to html
-      $('body').append(`
-        <div class="animalPen" value="${game.animals.length - 1}">
+      $('.animalPen').append(`
+        <div class="chicken" value="${game.animals.length - 1}">
           <p>chicken</p>
         </div>`);
         // make the new chicken clickable
-        $('.animalPen').bind('click', frontEnd);
+        $('.chicken').bind('click', frontEnd);
     }
   }
 
@@ -46,25 +46,50 @@ class Animal {
 // chickens
 class Chicken extends Animal {
 // create a chicken that is an Animal
-  constructor(eat, counter, dead) {
-    super(eat, counter, dead);
+  constructor(eat, counter, alive) {
+    super(eat, counter, alive);
 
   }
 }
 
 
 
-var game = new Game(new Chicken(10, 10, false));
+//front end
+var game = new Game(new Chicken(10, 10, true));
 
 
 function frontEnd() {
-  console.log('Bock');
-  // if (!game.animals[this.value].dead) {
-  //   console.log('bock');
-  // }
+  console.log(`Bock ${$(this).attr('value')}`);
+  console.log(game.animals[$(this).attr('value')]);
+  let chickenNumber = $(this).attr('value');
+  console.log(chickenNumber);
+  // is the selected chicken still alive
+  console.log(game.animals[chickenNumber].alive);
+  if (game.animals[chickenNumber].alive) {
+    // feed the selected chicken -- even though this statement is false it is still letting our UI feed the chicken
+    $('#feed').off().click(function () {
+      console.log(`I fed ${game.animals[chickenNumber].produceOffspringCounter}`);
+      game.animals[chickenNumber].feedAnimal();
+    })
+    $('#kill').off().click(function () {
+      console.log(`I killed ${chickenNumber}`);
+      game.animals[chickenNumber].slaughterAnimal();
+    })
+
+  } else {
+    console.log(`chicken ${chickenNumber} is dead.`);
+  };
 }
-//front end
+
+
+
+
 
 $(document).ready(function () {
-  $('.animalPen').click(frontEnd)
+  $('.chicken').off().click(frontEnd);
+    //console.log($(this).attr('value'));
+
+
+    //$('#feed').click(feedAnimal());
+
 })

@@ -1,7 +1,10 @@
-body {
+.animalPen  {
   display: inline-flex;
 }
-.animalPen {
+.buttonHolder {
+  display: inline-flex;
+}
+.chicken {
   background-color: #adfadfaf;
   border: 3px dashed black;
   border-radius: 15px;
@@ -12,4 +15,19 @@ body {
 }
 .hidden {
   display: none;
+}
+.button {
+  background-color: black;
+  border: 3px solid #adfadfaf;
+  border-radius: 100%;
+  color: white;
+  font-size: 20px;
+  margin: 10px;
+  padding: 3px;
+  text-align: center;
+  width: 100px;
+}
+#kill {
+  background-color: #FF0000;
+  border-color: black;
 }
