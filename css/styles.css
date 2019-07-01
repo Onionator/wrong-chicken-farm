@@ -1,0 +1,15 @@
+body {
+  display: inline-flex;
+}
+.animalPen {
+  background-color: #adfadfaf;
+  border: 3px dashed black;
+  border-radius: 15px;
+  height: 100px;
+  margin: 10px;
+  text-align: center;
+  width: 100px;
+}
+.hidden {
+  display: none;
+}
