@@ -27,7 +27,9 @@ class Game {
           if(game.animals[i].hunger > 0 && game.animals[i].alive) {
             game.animals[i].hunger -= 1;
             console.log(`Chicken Clock- chicken ${i}--\n ${game.animals[i].hunger}.`);
-            $(`#${i}`).text(game.animals[i].hunger);
+            $(`#${i}`).html(`Death in: ${game.animals[i].hunger}<br><br>Feed Count: ${game.animals[i].readyToProduceOffspringCounter}`);
+            $('#bank').text(game.bank);
+            $('#feedCount').text(game.feed);
           } else {
             game.animals[i].alive = false;
             console.log(`Your chicken ${i} is dead.`);
@@ -37,14 +39,21 @@ class Game {
       console.log(`interval still going`);
     }
     function anyLivingChickens() {
-      for (var i = 0; i < game.animals.length; i++) {
-        if (game.animals[i].alive) {
-          return true;
+      if (game.bank >= 100) {
+        clearInterval(doomsdayClock);
+        game.stillPlaying = false;
+        alert('You Win!')
+        return false;
+      } else {
+        for (var i = 0; i < game.animals.length; i++) {
+          if (game.animals[i].alive) {
+            return true;
+          }
         }
+        clearInterval(doomsdayClock);
+        game.stillPlaying = false;
+        return false;
       }
-      clearInterval(doomsdayClock);
-      game.stillPlaying = false;
-      return false;
     }
   }
 }
@@ -132,10 +141,11 @@ class Animal {
       // feed the selected chicken -- even though this statement is false it is still letting our UI feed the chicken
       $('#feed').off().click(function () {
         if (game.animals[game.selectedAnimal].alive) {
-        game.animals[game.selectedAnimal].feedAnimal();
-      } else {
-        console.log(`chicken ${game.selectedAnimal} is dead and no longer requires sustenance`);
-      })
+          game.animals[game.selectedAnimal].feedAnimal();
+        } else {
+          console.log(`chicken ${game.selectedAnimal} is dead and no longer requires sustenance`);
+        }
+      });
       // console.log(`I fed ${game.selectedAnimal}`);
       $('#sell').off().click(function () {
         if (game.animals[game.selectedAnimal].alive) {

@@ -1,3 +1,6 @@
+body {
+  font-size: 20px;
+}
 .animalPen  {
   display: inline-flex;
 }
@@ -8,10 +11,10 @@
   background-color: #adfadfaf;
   border: 3px dashed black;
   border-radius: 15px;
-  height: 100px;
+  height: 150px;
   margin: 10px;
   text-align: center;
-  width: 100px;
+  width: 150px;
 }
 .hidden {
   display: none;
@@ -30,6 +33,9 @@
 .selected {
   background-color: yellow;
   border: 5px solid #adfadfaf;
+}
+.thisThing {
+  font-size: 50px;
 }
 #sell {
   background-color: #FF0000;
