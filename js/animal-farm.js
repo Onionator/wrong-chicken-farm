@@ -42,7 +42,7 @@ class Game {
       if (game.bank >= 100) {
         clearInterval(doomsdayClock);
         game.stillPlaying = false;
-        alert('You Win!')
+        alert('You Win!');
         return false;
       } else {
         for (var i = 0; i < game.animals.length; i++) {
@@ -52,6 +52,7 @@ class Game {
         }
         clearInterval(doomsdayClock);
         game.stillPlaying = false;
+        alert('You Lose');
         return false;
       }
     }

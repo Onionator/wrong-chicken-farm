@@ -37,6 +37,9 @@ body {
 .thisThing {
   font-size: 50px;
 }
+#feed {
+  background-color: green;
+}
 #sell {
   background-color: #FF0000;
   border-color: black;

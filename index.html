@@ -1,37 +1,56 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="css/styles.css" type="text/css">
-    <script
+<head>
+  <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <script
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous"></script>
-    <script type="text/javascript" src="js/animal-farm.js"></script>
-    <title>Animal Farm</title>
-  </head>
-  <body>
-    <div class="animalPen">
-      <div class="chicken" value="0">
-        <p>chicken</p>
-        <span id='0'></span>
-      </div>
+  <script type="text/javascript" src="js/animal-farm.js"></script>
+  <title>Animal Farm</title>
+</head>
+<body>
+  <div class="animalPen">
+    <div class="chicken" value="0">
+      <p>chicken</p>
+      <span id='0'></span>
     </div>
-    <br>
-    <div class="buttonHolder">
-      <div class="button" id="feed">
-        <p>Feed</p>
-      </div>
-      <div class="button" id="buy">
-        <p>Buy Feed</p>
-      </div>
-      <div class="button" id="sell">
-        <p>Sell</p>
-      </div>
+  </div>
+  <br>
+  <div class="buttonHolder">
+    <div class="button" id="feed">
+      <p>Feed</p>
     </div>
-      <div class="thisThing">
-      <p>Feed: <span id="feedCount"></span></p>
-      <p>Bank: $<span id="bank"></span></p>
+    <div class="button" id="buy">
+      <p>Buy Feed</p>
     </div>
-    <p>Keep the chickens alive until you get to $100!</p>
+    <div class="button" id="sell">
+      <p>Sell</p>
+    </div>
+  </div>
+  <div class="thisThing">
+    <p>Feed: <span id="feedCount"></span></p>
+    <p>Bank: $<span id="bank"></span></p>
+  </div>
+  <ul>
+    <h1>Transactions</h1>
+    <li>Feed is $7</li>
+    <li>Chickens sell for $10</li>
+  </ul>
+  <ul>
+    <h1>Win Condition</h1>
+    <li>Keep the chickens alive until you get to $100!</li>
+  </ul>
+  <ul>
+    <h1>How to play</h1>
+    <li>Select a chicken to feed or sell it.</li>
+    <li>When a chicken gets to a feed count of 9 it spawns another chicken.</li>
+    <li>if a chicken's death timer reaches 0 it dies.</li>
+  </ul>
+  <ul>
+    <h1>Lose Conditions</h1>
+    <li>If you have no chickens you lose.</li>
+    <li>If you don't have any living chickens you lose.</li>
+  </ul>
   </body>
-</html>
+  </html>
