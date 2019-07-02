@@ -1,3 +1,4 @@
+
 class Game {
   constructor(start) {
     this.animals = [start];
@@ -16,7 +17,38 @@ class Game {
       console.log(`Only $${game.bank}. Not enough money.`);
     }
   }
+  chickenClock() {
+    const doomsdayClock = setInterval(chickenTimer, 1000);
+    function chickenTimer() {
+      // if there is one living chicken
+      if (anyLivingChickens()) {
+        // loop through and update all the chickens hunger meters
+        for(let i = 0; i < game.animals.length; i++) {
+          if(game.animals[i].hunger > 0 && game.animals[i].alive) {
+            game.animals[i].hunger -= 1;
+            console.log(`Chicken Clock- chicken ${i}--\n ${game.animals[i].hunger}.`);
+            $(`#${i}`).text(game.animals[i].hunger);
+          } else {
+            game.animals[i].alive = false;
+            console.log(`Your chicken ${i} is dead.`);
+          }
+        }
+      }
+      console.log(`interval still going`);
+    }
+  function anyLivingChickens() {
+    for (var i = 0; i < game.animals.length; i++) {
+      if (game.animals[i].alive) {
+        return true;
+      }
+    }
+    clearInterval(doomsdayClock);
+    return false;
+  }
 }
+}
+
+
 
 class Animal {
   constructor(hunger, counter, alive) {
@@ -35,29 +67,32 @@ class Animal {
   feedAnimal() {
     if (game.feed > 0) {
       console.log(game.selectedAnimal);
-      game.animals[game.selectedAnimal].hunger += 10;
+      game.animals[game.selectedAnimal].hunger = 20;
       game.animals[game.selectedAnimal].readyToProduceOffspringCounter += 1;
       game.feed -= 1;
       console.log(`Fed animal. ${game.feed} left.`);
+      if (game.animals[game.selectedAnimal].readyToProduceOffspringCounter >= 9) {
+        game.animals[game.selectedAnimal].produceOffspring();
+      }
     } else {
       console.log(`You do not have any feed left. Please buy more.`);
     }
   }
   // this function will determine if animal has been fed enough to produce offspring
   produceOffspring() {
-    if (this.readyToProduceOffspringCounter >= 9) {
-      console.log('log 3- animal-farm--\nanimal counter set to 0');
-      this.readyToProduceOffspringCounter = 0;
+    if (game.animals[game.selectedAnimal].readyToProduceOffspringCounter >= 9) {
+      game.animals[game.selectedAnimal].readyToProduceOffspringCounter = 0;
       // if above condition is met, crhungere another instance of same animal
       console.log('log 4- animal-farm--\ncreated a new animal');
       //crhungere a new chicken in the game.animals array
-      game.animals.push(new Chicken(10, 0, true));
+      game.animals.push(new Chicken(20, 0, true));
       // remove all event listeners from chicken class so we don't get duplicates
       $('.chicken').unbind();
       //add a new chicken to html
       $('.animalPen').append(`
         <div class="chicken" value="${game.animals.length - 1}">
         <p>chicken</p>
+        <span id="${game.animals.length - 1}"></span>
         </div>`);
         // make the new chicken clickable
         $('.chicken').bind('click', frontEnd);
@@ -70,64 +105,89 @@ class Animal {
     // crhungere a chicken that is an Animal
     constructor(hunger, counter, alive) {
       super(hunger, counter, alive);
-
+      // this.deathClock = game.chickenClock();
     }
-  }
 
-function something() {
-  let chickenClock = setInterval(chickenTimer, 1000);
-  function chickenTimer() {
-    if (game.animals[0].hunger > 0 && (game.animals[0].alive)) {
-      game.animals[0].hunger -= 1;
-      console.log(`Chicken Clock ${game.animals[0].hunger}.`);
-      console.log(game.animals[0]);
-    } else {
-      clearInterval(chickenClock)
-      console.log(`Your chicken is dead.`);
-    }
-  }
-}
-
-  //front end
-  var game = new Game(new Chicken(10, 10, true));
-
-
-  function frontEnd() {
-    // remove all selected class
-    $('.chicken').removeClass('selected');
-    // add a class to show which chicken is selected
-    $(this).addClass('selected');
-    console.log(`Bock ${$(this).attr('value')}`);
-    console.log(game.animals[$(this).attr('value')]);
-    game.selectedAnimal = $(this).attr('value');
-    console.log(game.selectedAnimal);
-    // is the selected chicken still alive
-    console.log(game.animals[game.selectedAnimal].alive);
-    if (game.animals[game.selectedAnimal].alive === true) {
-      // feed the selected chicken -- even though this statement is false it is still letting our UI feed the chicken
-      $('#feed').off().click(game.animals[game.selectedAnimal].feedAnimal);
-        // console.log(`I fed ${game.selectedAnimal}`);
-
-      $('#sell').off().click(function () {
-        game.animals[game.selectedAnimal].sellAnimal();
-        $('.selected').addClass('hidden');
-        $('.chicken').removeClass('selected');
-      })
-
-    } else {
-      console.log(`chicken ${game.selectedAnimal} is dead.`);
-    };
   }
 
 
 
+  // chickenClock() {
+    //   const doomsdayClock = setInterval(chickenTimer, 1000);
+    //   function chickenTimer() {
+      //     if (game.animals[0].hunger > 0 && (game.animals[0].alive)) {
+        //       game.animals[0].hunger -= 1;
+        //       console.log(`Chicken Clock ${game.animals[0].hunger}.`);
+        //       $('#0').text(game.animals[0].hunger);
+        //     } else {
+          //       clearInterval(doomsdayClock)
+          //       game.animals[0].alive = false;
+          //       console.log(`Your chicken is dead.`);
+          //     }
+          //   }
+          // }
 
-  $(document).ready(function () {
-    $('.chicken').off().click(frontEnd);
-    $('#buy').off().click(game.buyFeed);
-    //console.log($(this).attr('value'));
+          //   chickenClock() {
+            //     console.log(`in chicken clock`);
+            //     const doomsdayClock = setInterval(chickenTimer, 1000);
+            //     function chickenTimer() {
+              //       if (this.hunger > 0 && (this.alive)) {
+                //         this.hunger -= 1;
+                //         console.log(`Chicken Clock ${this.hunger}.`);
+                //         $('#0').text(this.hunger);
+                //       } else {
+                  //         clearInterval(doomsdayClock)
+                  //         game.animals[0].alive = false;
+                  //         console.log(`Your chicken is dead.`);
+                  //       }
+                  //     }
+                  //   }
+                  // }
 
 
-    //$('#feed').click(feedAnimal());
+                  //front end
+                  var game = new Game(new Chicken(20, 10, true));
+                  game.chickenClock();
 
-  })
+                  function frontEnd() {
+                    // remove all selected class
+                    $('.chicken').removeClass('selected');
+                    // add a class to show which chicken is selected
+                    $(this).addClass('selected');
+                    // set which animal is the selected animal
+                    game.selectedAnimal = $(this).attr('value');
+                    // is the selected chicken still alive
+                    console.log(`chicken ${game.selectedAnimal}`);
+                    if (game.animals[game.selectedAnimal].alive === true) {
+                      // feed the selected chicken -- even though this statement is false it is still letting our UI feed the chicken
+                      $('#feed').off().click(game.animals[game.selectedAnimal].feedAnimal);
+                      // console.log(`I fed ${game.selectedAnimal}`);
+
+                      $('#sell').off().click(function () {
+                        game.animals[game.selectedAnimal].sellAnimal();
+                        $('.selected').addClass('hidden');
+                        $('.chicken').removeClass('selected');
+                      })
+
+
+
+
+
+
+                    } else {
+                      console.log(`chicken ${game.selectedAnimal} is dead.`);
+                    };
+                  }
+
+
+
+
+                  $(document).ready(function () {
+                    $('.chicken').off().click(frontEnd);
+                    $('#buy').off().click(game.buyFeed);
+                    //console.log($(this).attr('value'));
+
+
+                    //$('#feed').click(feedAnimal());
+
+                  })
