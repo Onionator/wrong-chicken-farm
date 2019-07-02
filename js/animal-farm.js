@@ -36,16 +36,17 @@ class Game {
       }
       console.log(`interval still going`);
     }
-  function anyLivingChickens() {
-    for (var i = 0; i < game.animals.length; i++) {
-      if (game.animals[i].alive) {
-        return true;
+    function anyLivingChickens() {
+      for (var i = 0; i < game.animals.length; i++) {
+        if (game.animals[i].alive) {
+          return true;
+        }
       }
+      clearInterval(doomsdayClock);
+      game.stillPlaying = false;
+      return false;
     }
-    clearInterval(doomsdayClock);
-    return false;
   }
-}
 }
 
 
@@ -112,6 +113,60 @@ class Animal {
 
 
 
+
+
+  //front end
+  var game = new Game(new Chicken(20, 10, true));
+  game.chickenClock();
+
+  function frontEnd() {
+    // remove all selected class
+    $('.chicken').removeClass('selected');
+    // add a class to show which chicken is selected
+    $(this).addClass('selected');
+    // set which animal is the selected animal
+    game.selectedAnimal = $(this).attr('value');
+    // is the selected chicken still alive
+    console.log(`chicken ${game.selectedAnimal}`);
+    if (game.animals[game.selectedAnimal].alive === true) {
+      // feed the selected chicken -- even though this statement is false it is still letting our UI feed the chicken
+      $('#feed').off().click(function () {
+        if (game.animals[game.selectedAnimal].alive) {
+        game.animals[game.selectedAnimal].feedAnimal();
+      } else {
+        console.log(`chicken ${game.selectedAnimal} is dead and no longer requires sustenance`);
+      })
+      // console.log(`I fed ${game.selectedAnimal}`);
+      $('#sell').off().click(function () {
+        if (game.animals[game.selectedAnimal].alive) {
+          game.animals[game.selectedAnimal].sellAnimal();
+          $('.selected').addClass('hidden');
+          $('.chicken').removeClass('selected');
+        } else {
+          console.log(`chicken ${game.selectedAnimal} is dead. No one wants to buy your disgusting dead chicken.`);
+        }
+      })
+    } else {
+      console.log(`chicken ${game.selectedAnimal} is dead.`);
+    };
+  }
+
+
+
+
+  $(document).ready(function () {
+    $('.chicken').off().click(frontEnd);
+    $('#buy').off().click(game.buyFeed);
+    //console.log($(this).attr('value'));
+
+
+    //$('#feed').click(feedAnimal());
+
+  })
+
+
+
+
   // chickenClock() {
     //   const doomsdayClock = setInterval(chickenTimer, 1000);
     //   function chickenTimer() {
@@ -143,51 +198,3 @@ class Animal {
                   //     }
                   //   }
                   // }
-
-
-                  //front end
-                  var game = new Game(new Chicken(20, 10, true));
-                  game.chickenClock();
-
-                  function frontEnd() {
-                    // remove all selected class
-                    $('.chicken').removeClass('selected');
-                    // add a class to show which chicken is selected
-                    $(this).addClass('selected');
-                    // set which animal is the selected animal
-                    game.selectedAnimal = $(this).attr('value');
-                    // is the selected chicken still alive
-                    console.log(`chicken ${game.selectedAnimal}`);
-                    if (game.animals[game.selectedAnimal].alive === true) {
-                      // feed the selected chicken -- even though this statement is false it is still letting our UI feed the chicken
-                      $('#feed').off().click(game.animals[game.selectedAnimal].feedAnimal);
-                      // console.log(`I fed ${game.selectedAnimal}`);
-
-                      $('#sell').off().click(function () {
-                        game.animals[game.selectedAnimal].sellAnimal();
-                        $('.selected').addClass('hidden');
-                        $('.chicken').removeClass('selected');
-                      })
-
-
-
-
-
-
-                    } else {
-                      console.log(`chicken ${game.selectedAnimal} is dead.`);
-                    };
-                  }
-
-
-
-
-                  $(document).ready(function () {
-                    $('.chicken').off().click(frontEnd);
-                    $('#buy').off().click(game.buyFeed);
-                    //console.log($(this).attr('value'));
-
-
-                    //$('#feed').click(feedAnimal());
-
-                  })
