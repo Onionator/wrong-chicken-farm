@@ -27,7 +27,11 @@
   text-align: center;
   width: 100px;
 }
-#kill {
+.selected {
+  background-color: yellow;
+  border: 5px solid #adfadfaf;
+}
+#sell {
   background-color: #FF0000;
   border-color: black;
 }
