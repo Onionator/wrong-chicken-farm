@@ -12,6 +12,8 @@ class Game {
     if (game.bank >= 7) {
       game.bank -= 7;
       game.feed += 10;
+      $('#bank').text(game.bank);
+      $('#feedCount').text(game.feed);
       console.log(`Bought 10 feed for $7. $${game.bank} left.`);
     } else {
       console.log(`Only $${game.bank}. Not enough money.`);
@@ -27,11 +29,13 @@ class Game {
           if(game.animals[i].hunger > 0 && game.animals[i].alive) {
             game.animals[i].hunger -= 1;
             console.log(`Chicken Clock- chicken ${i}--\n ${game.animals[i].hunger}.`);
-            $(`#${i}`).html(`Death in: ${game.animals[i].hunger}<br><br>Feed Count: ${game.animals[i].readyToProduceOffspringCounter}`);
+            // output the chicken's stats
+            $(`#${i}`).nextAll().eq(3).attr(`value`, game.animals[i].hunger);
             $('#bank').text(game.bank);
-            $('#feedCount').text(game.feed);
+            //$('#feedCount').text(game.feed);
           } else {
             game.animals[i].alive = false;
+            $(`#${i}`).parent().addClass('dead');
             console.log(`Your chicken ${i} is dead.`);
           }
         }
@@ -82,6 +86,12 @@ class Animal {
       game.animals[game.selectedAnimal].readyToProduceOffspringCounter += 1;
       game.feed -= 1;
       console.log(`Fed animal. ${game.feed} left.`);
+      // update total feed left
+      $('#feedCount').text(game.feed);
+      // update selectedAnimal's progress toward producing an produceing an offspring
+      console.log('before');
+      $(`#${game.selectedAnimal}`).nextAll().eq(1).attr(`value`, game.animals[game.selectedAnimal].readyToProduceOffspringCounter);
+      console.log('after');
       if (game.animals[game.selectedAnimal].readyToProduceOffspringCounter >= 9) {
         game.animals[game.selectedAnimal].produceOffspring();
       }
@@ -104,9 +114,15 @@ class Animal {
         <div class="chicken" value="${game.animals.length - 1}">
         <p>chicken</p>
         <span id="${game.animals.length - 1}"></span>
+        <label for="meter">Egg</label>
+        <meter value="" min="0" max="9"></meter>
+        <label for="meter">Death</label>
+        <meter value="" min="0" max="20"></meter>
         </div>`);
         // make the new chicken clickable
         $('.chicken').bind('click', frontEnd);
+      //
+      $(`#${game.selectedAnimal}`).nextAll().eq(1).attr(`value`, 0);
       }
     }
 
