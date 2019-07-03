@@ -51,6 +51,17 @@ meter {
   color: darkgrey;
   pointer-events: none;
 }
+.dying {
+  animation: shake .5s infinite;
+}
+@keyframes shake {
+  0% {transform: rotateZ(0deg);}
+  3% {transform: rotateZ(5deg);}
+  6% {transform: rotateZ(0deg);}
+  9% {transform: rotateZ(-5deg);}
+  12% {transform: rotateZ(0deg);}
+  100% {transform: rotateZ(0deg);}
+}
 #feed {
   background-color: green;
 }

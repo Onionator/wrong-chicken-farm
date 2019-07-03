@@ -29,18 +29,24 @@ class Game {
           if(game.animals[i].hunger > 0 && game.animals[i].alive) {
             game.animals[i].hunger -= 1;
             console.log(`Chicken Clock- chicken ${i}--\n ${game.animals[i].hunger}.`);
+            // add class dying for the shake animation
+            if (game.animals[i].hunger <= 5 && game.animals[i].hunger >= 0) {
+              $(`#${i}`).parent().addClass('dying');
+            } else {
+              // remove the class dying with the shake animation
+              $(`#${i}`).parent().removeClass('dying');
+            }
             // output the chicken's stats
             $(`#${i}`).nextAll().eq(3).attr(`value`, game.animals[i].hunger);
             $('#bank').text(game.bank);
-            //$('#feedCount').text(game.feed);
           } else {
             game.animals[i].alive = false;
             $(`#${i}`).parent().addClass('dead');
+
             console.log(`Your chicken ${i} is dead.`);
           }
         }
       }
-      console.log(`interval still going`);
     }
     function anyLivingChickens() {
       if (game.bank >= 100) {
@@ -81,6 +87,8 @@ class Animal {
   // call this function to feed the animal
   feedAnimal() {
     if (game.feed > 0) {
+      // remove the dying animation class
+      $(`#${game.selectedAnimal}`).parent().removeClass('dying');
       console.log(game.selectedAnimal);
       game.animals[game.selectedAnimal].hunger = 20;
       game.animals[game.selectedAnimal].readyToProduceOffspringCounter += 1;
