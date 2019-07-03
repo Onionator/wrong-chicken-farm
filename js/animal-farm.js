@@ -30,7 +30,7 @@ class Game {
             game.animals[i].hunger -= 1;
             console.log(`Chicken Clock- chicken ${i}--\n ${game.animals[i].hunger}.`);
             // add class dying for the shake animation
-            if (game.animals[i].hunger <= 5 && game.animals[i].hunger >= 0) {
+            if (game.animals[i].hunger <= 5 && game.animals[i].hunger > 0) {
               $(`#${i}`).parent().addClass('dying');
             } else {
               // remove the class dying with the shake animation
@@ -42,7 +42,6 @@ class Game {
           } else {
             game.animals[i].alive = false;
             $(`#${i}`).parent().addClass('dead');
-
             console.log(`Your chicken ${i} is dead.`);
           }
         }
