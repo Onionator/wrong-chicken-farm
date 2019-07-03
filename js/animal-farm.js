@@ -26,16 +26,16 @@ class Game {
       if (anyLivingChickens()) {
         // loop through and update all the chickens hunger meters
         for(let i = 0; i < game.animals.length; i++) {
+          if (game.animals[i].hunger <= 5 && game.animals[i].hunger > 0) {
+            $(`#${i}`).parent().addClass('dying');
+          } else {
+            // remove the class dying with the shake animation
+            $(`#${i}`).parent().removeClass('dying');
+          }
           if(game.animals[i].hunger > 0 && game.animals[i].alive) {
             game.animals[i].hunger -= 1;
             console.log(`Chicken Clock- chicken ${i}--\n ${game.animals[i].hunger}.`);
             // add class dying for the shake animation
-            if (game.animals[i].hunger <= 5 && game.animals[i].hunger > 0) {
-              $(`#${i}`).parent().addClass('dying');
-            } else {
-              // remove the class dying with the shake animation
-              $(`#${i}`).parent().removeClass('dying');
-            }
             // output the chicken's stats
             $(`#${i}`).nextAll().eq(3).attr(`value`, game.animals[i].hunger);
             $('#bank').text(game.bank);
