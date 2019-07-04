@@ -74,7 +74,7 @@ class Animal {
   // call this function to feed the animal
   feedAnimal() {
     if (game.feed > 0) {
-      game.animals[game.selectedAnimal].hunger = 20;
+      game.animals[game.selectedAnimal].hunger = game.animals[game.selectedAnimal].maxHunger;
       game.animals[game.selectedAnimal].readyToProduceOffspring += 1;
       game.feed -= 1;
     } else {
@@ -85,9 +85,12 @@ class Animal {
   produceOffspring() {
     game.animals[game.selectedAnimal].readyToProduceOffspring = 0;
     let typeOfAnimal = (game.animals[game.selectedAnimal].constructor.name).toString();
-    if (typeOfAnimal === 'Chicken' && game.selectedAnimal === '7') {
+    if (typeOfAnimal === 'Chicken' && game.selectedAnimal === '5') {
       game.animals.push(new Goat(game.animals.length));
       typeOfAnimal = 'Goat';
+    } else if (typeOfAnimal === 'Goat' && game.animals[0].alive) {
+      game.animals.push(new Emu(game.animals.length));
+      typeOfAnimal = 'Emu';
     } else if (typeOfAnimal === 'Goat') {
       game.animals.push(new Goat(game.animals.length));
     } else if (typeOfAnimal === 'Chicken') {
@@ -124,6 +127,19 @@ class Goat extends Animal {
     this.readyToProduceOffspringAt = 15;
     this.serialNumber = serialNumber;
     this.value = 30;
+    this.alive = true;
+  }
+}
+// create an emu to tip the scales in your favor
+class Emu extends Animal {
+  constructor(serialNumber) {
+    super(serialNumber);
+    this.hunger = 5;
+    this.maxHunger = 5;
+    this.readyToProduceOffspring = 0;
+    this.readyToProduceOffspringAt = 25;
+    this.serialNumber = serialNumber;
+    this.value = 100;
     this.alive = true;
   }
 }
